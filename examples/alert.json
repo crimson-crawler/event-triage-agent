@@ -1,0 +1,13 @@
+{
+  "title": "'Mimikatz' credential theft tool detected",
+  "severity": "high",
+  "category": "CredentialAccess",
+  "description": "Behavior consistent with CVE-2023-21529; T1003.001 observed.",
+  "threatFamilyName": "Mimikatz",
+  "mitreTechniques": ["T1003.001"],
+  "evidence": [
+    {"@odata.type": "#microsoft.graph.security.ipEvidence", "ipAddress": "203.0.113.42"},
+    {"@odata.type": "#microsoft.graph.security.fileEvidence",
+     "fileDetails": {"sha256": "cafef00d00000000000000000000000000000000000000000000000000000000"}}
+  ]
+}
