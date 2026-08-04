@@ -1,0 +1,21 @@
+# Dependabot config for the published GitHub mirror.
+#
+# The dependency graph, Dependabot alerts, and Dependabot security updates all
+# have to be switched on in the repository's Settings -> Security as well; this
+# file only sets the update cadence. All three are free for public repositories.
+#
+# Note the publish flow replaces the whole tree on each release, so a Dependabot
+# PR cannot be merged on GitHub — it is a notification channel. Apply the bump in
+# the internal repository and let the next snapshot carry it.
+version: 2
+updates:
+  - package-ecosystem: "uv"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      # One PR for routine bumps; security updates still arrive separately.
+      dev-dependencies:
+        patterns: ["*"]
+        dependency-type: "development"

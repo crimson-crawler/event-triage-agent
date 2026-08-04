@@ -1,0 +1,101 @@
+[project]
+name = "cc-agent"
+version = "0.1.0"
+description = "Open-source threat-triage agent powered by Crimson Crawler enrichment. Runs against any OpenAI-compatible endpoint."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "Def-Logix" }]
+maintainers = [{ name = "Def-Logix" }]
+keywords = [
+    "security",
+    "threat-intelligence",
+    "triage",
+    "soc",
+    "mitre-attack",
+    "cve",
+    "ioc",
+    "llm",
+    "agent",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+]
+
+dependencies = [
+    "httpx>=0.27",
+    "openai>=1.40",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.8",
+]
+
+[project.urls]
+Homepage = "https://crimsoncrawler.com"
+Repository = "https://github.com/crimson-crawler/event-triage-agent"
+Issues = "https://github.com/crimson-crawler/event-triage-agent/issues"
+Changelog = "https://github.com/crimson-crawler/event-triage-agent/blob/main/CHANGELOG.md"
+
+[project.scripts]
+cc-agent = "cc_agent.cli:main"
+
+[build-system]
+# Bounded, not just floored: `pip install .` resolves this independently of
+# uv.lock (build-system dependencies live outside the project lock by design),
+# so an unbounded requirement means two installs of the same commit, done
+# months apart, can run different build-backend code. The upper bound caps
+# exposure to an unreviewed major release; bump it deliberately.
+requires = ["hatchling>=1.24,<2"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["cc_agent"]
+
+# Hatchling's default sdist sweeps in every non-git-ignored file — including the
+# internal-only CI files and any stray untracked file at the repo root. Pin an
+# explicit allowlist so the sdist can never leak `.gitlab-ci.yml`, `ci/`, or a
+# report/scratch file if one is ever distributed.
+[tool.hatch.build.targets.sdist]
+include = [
+    "cc_agent",
+    "tests",
+    "examples",
+    "assets",
+    "run.py",
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    "SECURITY.md",
+    "CONTRIBUTING.md",
+    "CHANGELOG.md",
+    "pyproject.toml",
+    "uv.lock",
+    ".env.example",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
