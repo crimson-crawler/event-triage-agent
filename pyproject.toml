@@ -37,7 +37,7 @@ classifiers = [
 
 dependencies = [
     "httpx>=0.27",
-    "openai>=1.40",
+    "openai>=2.52.0",
     "python-dotenv>=1.0",
 ]
 
